@@ -26,3 +26,34 @@ also provide a hash-locked `requirements.lock`; reproduce an environment with
 `python -m pip install --require-hashes -r requirements.lock`. Runtime commands,
 Docker Compose, migrations, seeds, and the complete local runbook are delivered
 by later tasks.
+
+## Frontend lokal starten
+
+Beide Angular-Entwicklungsserver lassen sich gemeinsam aus PowerShell starten:
+
+```powershell
+.\start-local.ps1
+```
+
+Die Shell ist anschließend unter `http://localhost:4200` und das News-
+Microfrontend unter `http://localhost:4201` erreichbar. Beim ersten Start werden
+fehlende Node-Abhängigkeiten mit `npm ci` installiert.
+
+## Frontend in Docker starten
+
+Docker Desktop muss laufen. Das Skript erstellt echte optimierte Production-
+Builds und startet Shell und News als getrennte Nginx-Container:
+
+```powershell
+.\start-docker.ps1
+```
+
+Bereits vorhandene Container mit den exakten Namen `praxis-shell` und
+`praxis-news` werden vorher entfernt. Abweichende Container werden nicht
+verändert. Die gesamte Website ist danach über die Shell erreichbar:
+
+- Shell: `http://localhost:4200`
+- News-Remote: `http://localhost:4201`
+
+Der lokale Start über `.\start-local.ps1` bleibt bewusst ein schneller
+Development-Start mit Live-Reload; der Docker-Start prüft die Release-Builds.

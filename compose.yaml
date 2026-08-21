@@ -1,0 +1,22 @@
+name: praxis
+
+services:
+  shell:
+    container_name: praxis-shell
+    build:
+      context: ./frontend
+      args:
+        PROJECT: shell
+    ports:
+      - "4200:80"
+    restart: unless-stopped
+
+  news:
+    container_name: praxis-news
+    build:
+      context: ./frontend
+      args:
+        PROJECT: news
+    ports:
+      - "4201:80"
+    restart: unless-stopped
