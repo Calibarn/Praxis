@@ -6,6 +6,7 @@
     "start": "ng serve shell",
     "start:shell": "ng serve shell --port 4200",
     "start:news": "ng serve news --port 4201",
+    "start:all": "node tools/start-all.mjs",
     "build": "npm run build:shell && npm run build:news",
     "build:shell": "ng build shell",
     "build:news": "ng build news",
@@ -14,8 +15,9 @@
     "test:shell": "ng test shell --watch=false",
     "test:news": "ng test news --watch=false",
     "test:boundaries": "node --test tools/check-boundaries.test.mjs",
+    "test:start": "node --test tools/start-all.test.mjs",
     "check:boundaries": "node tools/check-boundaries.mjs",
-    "quality": "npm run lint && npm test && npm run test:boundaries && npm run check:boundaries && npm run build && npm run format:check",
+    "quality": "npm run lint && npm test && npm run test:boundaries && npm run test:start && npm run check:boundaries && npm run build && npm run format:check",
     "format:check": "prettier --check .",
     "lint": "ng lint"
   },
