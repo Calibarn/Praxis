@@ -1,0 +1,28 @@
+# Praxis application
+
+Greenfield implementation of Story 1. The application is isolated from the JAF
+runtime and consists of independently buildable projects:
+
+```text
+frontend/                         Angular workspace
+  projects/shell/                 Native Federation host
+  projects/news/                  Native Federation remote
+backend/services/news-service/    News source of truth
+gateway/                          Public FastAPI gateway
+contracts/                        Public API contracts
+```
+
+## Version baseline
+
+- Node.js 24 LTS-compatible line (`>=24.15 <25`)
+- Angular 22.1.3, Angular CLI/build 22.1.5
+- Native Federation 22.1.1 (v4 runtime)
+- Python 3.14
+- FastAPI 0.141.1
+- SQLAlchemy 2.0.52 and Alembic 1.19.1
+
+Direct dependencies are pinned in each owning `pyproject.toml`. Python services
+also provide a hash-locked `requirements.lock`; reproduce an environment with
+`python -m pip install --require-hashes -r requirements.lock`. Runtime commands,
+Docker Compose, migrations, seeds, and the complete local runbook are delivered
+by later tasks.

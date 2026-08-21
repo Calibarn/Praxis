@@ -1,0 +1,34 @@
+# Secrets and local environment
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+secrets/
+
+# Python
+**/.venv/
+**/.lockcheck/
+**/__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+*.egg-info/
+
+# Node and Angular
+**/node_modules/
+**/dist/
+**/.angular/
+**/coverage/
+
+# Local runtime and tooling
+**/.jaf/
+.vscode/
+.idea/
+*.log
+
+# Operating systems
+.DS_Store
+Thumbs.db
+
