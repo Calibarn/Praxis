@@ -16,6 +16,9 @@ dependencies = [
   "uvicorn==0.52.4",
 ]
 
+[project.scripts]
+news-seed = "news_service.persistence.seed_cli:main"
+
 [project.optional-dependencies]
 dev = [
   "httpx==0.28.1",
@@ -29,6 +32,7 @@ dev = [
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 addopts = "-ra --strict-config --strict-markers"
+markers = ["integration: requires NEWS_DATABASE_URL pointing to an isolated MariaDB schema"]
 
 [tool.ruff]
 line-length = 100

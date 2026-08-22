@@ -1,0 +1,23 @@
+name: praxis-news-integration
+
+services:
+  mariadb:
+    image: mariadb:11.8.3@sha256:ae6119716edac6998ae85508431b3d2e666530ddf4e94c61a10710caec9b0f71
+    command: ["--default-time-zone=+02:00"]
+    environment:
+      MARIADB_DATABASE: praxis_news
+      MARIADB_USER: news_service
+      MARIADB_PASSWORD: test-only-password
+      MARIADB_ROOT_PASSWORD: test-only-root-password
+    ports:
+      - "43306:3306"
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 2s
+      timeout: 3s
+      retries: 30
+    volumes:
+      - news-integration-data:/var/lib/mysql
+
+volumes:
+  news-integration-data:

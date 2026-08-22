@@ -1,2 +1,1 @@
 """Praxis News Service package."""
-
