@@ -23,9 +23,7 @@ contracts/                        Public API contracts
 
 Direct dependencies are pinned in each owning `pyproject.toml`. Python services
 also provide a hash-locked `requirements.lock`; reproduce an environment with
-`python -m pip install --require-hashes -r requirements.lock`. Runtime commands,
-Docker Compose, migrations, seeds, and the complete local runbook are delivered
-by later tasks.
+`python -m pip install --require-hashes -r requirements.lock`.
 
 ## Frontend lokal starten
 
@@ -39,21 +37,31 @@ Die Shell ist anschließend unter `http://localhost:4200` und das News-
 Microfrontend unter `http://localhost:4201` erreichbar. Beim ersten Start werden
 fehlende Node-Abhängigkeiten mit `npm ci` installiert.
 
-## Frontend in Docker starten
+## Stack in Docker starten
 
-Docker Desktop muss laufen. Das Skript erstellt echte optimierte Production-
-Builds und startet Shell und News als getrennte Nginx-Container:
+Docker Desktop muss laufen. Einmalig `.env.example` nach `.env` kopieren und
+die MariaDB-Passwörter setzen. Das Skript baut echte optimierte Production-
+Images und startet Shell, News-Remote, News-Service und MariaDB:
 
 ```powershell
+Copy-Item .env.example .env   # einmalig, danach Passwörter anpassen
 .\start-docker.ps1
 ```
 
-Bereits vorhandene Container mit den exakten Namen `praxis-shell` und
-`praxis-news` werden vorher entfernt. Abweichende Container werden nicht
-verändert. Die gesamte Website ist danach über die Shell erreichbar:
+Bereits vorhandene Container mit den exakten Namen `praxis-shell`,
+`praxis-news`, `praxis-news-service` und `praxis-mariadb` werden vorher
+entfernt. Abweichende Container werden nicht verändert. Die Anwendung ist
+danach unter folgenden Adressen erreichbar:
 
 - Shell: `http://localhost:4200`
 - News-Remote: `http://localhost:4201`
+- News-Service: `http://localhost:8000/api/news`, `http://localhost:8000/health`
+
+Der News-Service wendet beim Start automatisch seine Alembic-Migrationen an;
+die MariaDB-Daten liegen im benannten Volume `praxis_mariadb_data` und
+überleben `docker compose down` (nicht aber `docker compose down --volumes`).
+Der Gateway ist noch nicht implementiert und deshalb kein Teil des Compose-
+Stacks; Frontends sprechen aktuell keinen Backend-Dienst an.
 
 Der lokale Start über `.\start-local.ps1` bleibt bewusst ein schneller
 Development-Start mit Live-Reload; der Docker-Start prüft die Release-Builds.
