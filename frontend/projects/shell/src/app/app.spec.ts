@@ -2,13 +2,19 @@ import { provideRouter } from '@angular/router';
 import { TestBed } from '@angular/core/testing';
 
 import { App } from './app';
+import { LocaleService } from './i18n/locale.service';
 
 describe('App', () => {
+  let localeService: LocaleService;
+
   beforeEach(async () => {
+    localStorage.clear();
     await TestBed.configureTestingModule({
       imports: [App],
       providers: [provideRouter([])],
     }).compileComponents();
+    localeService = TestBed.inject(LocaleService);
+    localeService.locale.set('de');
   });
 
   it('should create the app', () => {
@@ -22,7 +28,7 @@ describe('App', () => {
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
     const newsLink = compiled.querySelector('a[href="/news"]');
-    expect(newsLink?.textContent).toContain('News');
+    expect(newsLink?.textContent).toContain('Aktuelles');
   });
 
   it('starts with the navigation collapsed and expands on toggle', () => {
@@ -37,5 +43,42 @@ describe('App', () => {
     fixture.detectChanges();
 
     expect(shell.classList.contains('nav-open')).toBe(true);
+  });
+
+  it('opens the language menu and switches the UI language', () => {
+    const fixture = TestBed.createComponent(App);
+    fixture.detectChanges();
+    const compiled = fixture.nativeElement as HTMLElement;
+
+    expect(compiled.querySelector('.lang-menu')).toBeNull();
+
+    (compiled.querySelector('.lang-toggle') as HTMLButtonElement).click();
+    fixture.detectChanges();
+
+    const options = compiled.querySelectorAll('.lang-option');
+    expect(options.length).toBe(4);
+
+    const englishOption = Array.from(options).find((option) =>
+      option.textContent?.includes('English (US)'),
+    ) as HTMLButtonElement;
+    englishOption.click();
+    fixture.detectChanges();
+
+    expect(localeService.locale()).toBe('en');
+    expect(compiled.querySelector('.plaque-tagline')?.textContent).toBe('General medicine');
+    expect(compiled.querySelector('.lang-menu')).toBeNull();
+  });
+
+  it('picks up a locale change broadcast from another federated app', () => {
+    const fixture = TestBed.createComponent(App);
+    fixture.detectChanges();
+
+    window.dispatchEvent(new CustomEvent('praxis:locale-change', { detail: 'fr' }));
+    fixture.detectChanges();
+
+    expect(localeService.locale()).toBe('fr');
+    expect(fixture.nativeElement.querySelector('.plaque-tagline').textContent).toBe(
+      'Médecine générale',
+    );
   });
 });

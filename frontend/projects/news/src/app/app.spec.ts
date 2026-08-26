@@ -3,18 +3,21 @@ import { HttpTestingController, provideHttpClientTesting } from '@angular/common
 import { TestBed } from '@angular/core/testing';
 
 import { App } from './app';
+import { LocaleService } from './i18n/locale.service';
 import { NewsPage } from './news-api.service';
 
 describe('App', () => {
   let httpMock: HttpTestingController;
 
   beforeEach(async () => {
+    localStorage.clear();
     await TestBed.configureTestingModule({
       imports: [App],
       providers: [provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
 
     httpMock = TestBed.inject(HttpTestingController);
+    TestBed.inject(LocaleService).locale.set('de');
   });
 
   afterEach(() => {
@@ -62,7 +65,7 @@ describe('App', () => {
     fixture.detectChanges();
 
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('.news-card h2')?.textContent).toContain('Willkommen');
+    expect(compiled.querySelector('.news-card h3')?.textContent).toContain('Willkommen');
   });
 
   it('shows a retry action when loading fails', () => {
@@ -77,6 +80,18 @@ describe('App', () => {
 
     (compiled.querySelector('.status.error button') as HTMLButtonElement).click();
     expectFirstPageRequest().flush(emptyPage());
+  });
+
+  it('picks up a locale change broadcast from the shell', () => {
+    const fixture = TestBed.createComponent(App);
+    fixture.detectChanges();
+    expectFirstPageRequest().flush(emptyPage());
+
+    window.dispatchEvent(new CustomEvent('praxis:locale-change', { detail: 'es' }));
+    fixture.detectChanges();
+
+    const compiled = fixture.nativeElement as HTMLElement;
+    expect(compiled.querySelector('h1')?.textContent).toBe('Bienvenido a nuestra consulta');
   });
 });
 

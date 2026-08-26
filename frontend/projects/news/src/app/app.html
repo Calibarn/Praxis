@@ -1,28 +1,48 @@
+<section class="hero">
+  <h1>{{ localeService.translations().heroTitle }}</h1>
+  <p class="lede">{{ localeService.translations().heroLede }}</p>
+
+  <dl class="hours">
+    <div class="hours-row">
+      <dt>{{ localeService.translations().hoursMonFri }}</dt>
+      <dd>08:00 – 11:30</dd>
+    </div>
+    <div class="hours-row">
+      <dt>{{ localeService.translations().hoursMonThu }}</dt>
+      <dd>14:00 – 17:30</dd>
+    </div>
+    <div class="hours-row">
+      <dt>{{ localeService.translations().hoursTue }}</dt>
+      <dd>14:00 – 16:30</dd>
+    </div>
+  </dl>
+</section>
+
 <section class="news" aria-labelledby="news-heading">
-  <h1 id="news-heading">News</h1>
+  <h2 id="news-heading">{{ localeService.translations().newsHeading }}</h2>
 
   @if (items().length === 0 && !loading() && !error()) {
-    <p class="empty">Es sind noch keine Neuigkeiten vorhanden.</p>
+    <p class="empty">{{ localeService.translations().emptyState }}</p>
   }
 
   <ul class="news-list">
     @for (item of items(); track item.id) {
       <li class="news-card">
-        <h2>{{ item.title }}</h2>
-        <p class="meta">{{ item.publishedAt | date: 'medium' }}</p>
+        <h3>{{ item.title }}</h3>
+        <p class="meta">{{ item.publishedAt | localeDate }}</p>
         <p class="summary">{{ item.summary }}</p>
       </li>
     }
   </ul>
 
   @if (loading()) {
-    <p class="status" role="status">Neuigkeiten werden geladen …</p>
+    <p class="status" role="status">{{ localeService.translations().loading }}</p>
   }
 
   @if (error()) {
     <div class="status error" role="alert">
-      <p>Neuigkeiten konnten nicht geladen werden.</p>
-      <button type="button" (click)="retry()">Erneut versuchen</button>
+      <p>{{ localeService.translations().errorMessage }}</p>
+      <button type="button" (click)="retry()">{{ localeService.translations().retry }}</button>
     </div>
   }
 

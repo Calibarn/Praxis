@@ -1,3 +1,47 @@
+<ng-template #flagDe>
+  <svg viewBox="0 0 24 16" width="20" height="14" aria-hidden="true" focusable="false">
+    <rect width="24" height="16" fill="#1a1a1a" />
+    <rect y="5.33" width="24" height="5.34" fill="#dd0000" />
+    <rect y="10.67" width="24" height="5.33" fill="#ffce00" />
+  </svg>
+</ng-template>
+
+<ng-template #flagUs>
+  <svg viewBox="0 0 24 16" width="20" height="14" aria-hidden="true" focusable="false">
+    <rect width="24" height="16" fill="#fff" />
+    <g fill="#b22234">
+      <rect width="24" height="1.23" />
+      <rect y="2.46" width="24" height="1.23" />
+      <rect y="4.92" width="24" height="1.23" />
+      <rect y="7.38" width="24" height="1.23" />
+      <rect y="9.85" width="24" height="1.23" />
+      <rect y="12.31" width="24" height="1.23" />
+      <rect y="14.77" width="24" height="1.23" />
+    </g>
+    <rect width="10" height="8.6" fill="#3c3b6e" />
+  </svg>
+</ng-template>
+
+<ng-template #flagCa>
+  <svg viewBox="0 0 24 16" width="20" height="14" aria-hidden="true" focusable="false">
+    <rect width="24" height="16" fill="#fff" />
+    <rect width="6" height="16" fill="#d80621" />
+    <rect x="18" width="6" height="16" fill="#d80621" />
+    <path
+      fill="#d80621"
+      d="M12 3.2 12.9 5l1.9-.4-.9 1.8 1.5 1.3-1.8.5.2 1.9-1.8-.8-1.8.8.2-1.9-1.8-.5 1.5-1.3-.9-1.8 1.9.4Z"
+    />
+    <rect x="11.3" y="10.3" width="1.4" height="2.3" fill="#d80621" />
+  </svg>
+</ng-template>
+
+<ng-template #flagEs>
+  <svg viewBox="0 0 24 16" width="20" height="14" aria-hidden="true" focusable="false">
+    <rect width="24" height="16" fill="#c60b1e" />
+    <rect y="4" width="24" height="8" fill="#ffc400" />
+  </svg>
+</ng-template>
+
 <div class="app-shell" [class.nav-open]="navOpen()">
   <header class="topbar">
     <button
@@ -6,7 +50,7 @@
       (click)="toggleNav()"
       [attr.aria-expanded]="navOpen()"
       aria-controls="primary-nav"
-      aria-label="Navigation umschalten"
+      [attr.aria-label]="localeService.translations().navToggle"
     >
       <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false">
         <path
@@ -18,7 +62,10 @@
         />
       </svg>
     </button>
-    <span class="brand">Praxis</span>
+    <div class="plaque">
+      <span class="plaque-name">Praxis</span>
+      <span class="plaque-tagline">{{ localeService.translations().tagline }}</span>
+    </div>
   </header>
 
   <nav id="primary-nav" class="sidebar" aria-label="Hauptnavigation">
@@ -48,17 +95,79 @@
                 stroke-linejoin="round"
               />
             </svg>
-            <span class="label">{{ item.label }}</span>
+            <span class="label">{{ localeService.translations()[item.labelKey] }}</span>
           </a>
         </li>
       }
+
+      <li class="lang-item">
+        <button
+          type="button"
+          class="nav-link lang-toggle"
+          (click)="toggleLangMenu()"
+          [attr.aria-expanded]="langMenuOpen()"
+          aria-haspopup="true"
+          aria-controls="lang-menu"
+        >
+          <span class="icon flag">
+            @switch (localeService.locale()) {
+              @case ('de') {
+                <ng-container [ngTemplateOutlet]="flagDe" />
+              }
+              @case ('en') {
+                <ng-container [ngTemplateOutlet]="flagUs" />
+              }
+              @case ('fr') {
+                <ng-container [ngTemplateOutlet]="flagCa" />
+              }
+              @case ('es') {
+                <ng-container [ngTemplateOutlet]="flagEs" />
+              }
+            }
+          </span>
+          <span class="label">{{ localeService.translations().languageLabel }}</span>
+        </button>
+
+        @if (langMenuOpen()) {
+          <ul id="lang-menu" class="lang-menu">
+            @for (locale of supportedLocales; track locale) {
+              <li>
+                <button
+                  type="button"
+                  class="lang-option"
+                  [class.active]="locale === localeService.locale()"
+                  (click)="selectLocale(locale)"
+                >
+                  <span class="icon flag">
+                    @switch (locale) {
+                      @case ('de') {
+                        <ng-container [ngTemplateOutlet]="flagDe" />
+                      }
+                      @case ('en') {
+                        <ng-container [ngTemplateOutlet]="flagUs" />
+                      }
+                      @case ('fr') {
+                        <ng-container [ngTemplateOutlet]="flagCa" />
+                      }
+                      @case ('es') {
+                        <ng-container [ngTemplateOutlet]="flagEs" />
+                      }
+                    }
+                  </span>
+                  <span class="label">{{ localeNames[locale] }}</span>
+                </button>
+              </li>
+            }
+          </ul>
+        }
+      </li>
     </ul>
   </nav>
 
   <button
     type="button"
     class="scrim"
-    aria-label="Navigation schließen"
+    [attr.aria-label]="localeService.translations().navClose"
     (click)="closeNav()"
   ></button>
 

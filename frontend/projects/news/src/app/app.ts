@@ -1,4 +1,3 @@
-import { DatePipe } from '@angular/common';
 import {
   AfterViewInit,
   Component,
@@ -9,13 +8,15 @@ import {
   signal,
 } from '@angular/core';
 
+import { LocaleDatePipe } from './i18n/locale-date.pipe';
+import { LocaleService } from './i18n/locale.service';
 import { NewsApiService, NewsItem } from './news-api.service';
 
 const PAGE_SIZE = 20;
 
 @Component({
   selector: 'app-root',
-  imports: [DatePipe],
+  imports: [LocaleDatePipe],
   templateUrl: './app.html',
   styleUrl: './app.scss',
 })
@@ -25,6 +26,7 @@ export class App implements AfterViewInit, OnDestroy {
   private observer?: IntersectionObserver;
   private nextPage = 1;
 
+  protected readonly localeService = inject(LocaleService);
   protected readonly items = signal<NewsItem[]>([]);
   protected readonly loading = signal(false);
   protected readonly error = signal(false);
