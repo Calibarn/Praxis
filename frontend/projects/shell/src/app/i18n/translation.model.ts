@@ -9,7 +9,7 @@ export interface Translation {
 export type Locale = 'de' | 'en' | 'fr' | 'es';
 
 export const SUPPORTED_LOCALES: readonly Locale[] = ['de', 'en', 'fr', 'es'];
-export const DEFAULT_LOCALE: Locale = 'de';
+export const DEFAULT_LOCALE: Locale = 'en';
 
 /** Each language's own name for itself — conventionally shown unchanged
  * regardless of the current UI locale (en = US, fr = Canada, per request). */

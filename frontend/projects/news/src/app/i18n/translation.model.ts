@@ -14,7 +14,7 @@ export interface Translation {
 export type Locale = 'de' | 'en' | 'fr' | 'es';
 
 export const SUPPORTED_LOCALES: readonly Locale[] = ['de', 'en', 'fr', 'es'];
-export const DEFAULT_LOCALE: Locale = 'de';
+export const DEFAULT_LOCALE: Locale = 'en';
 
 /** Maps our app locales to BCP-47 tags for Intl date formatting (en = US, fr = Canada). */
 export const INTL_LOCALES: Record<Locale, string> = {
