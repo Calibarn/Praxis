@@ -86,7 +86,9 @@ $breakpoint: 768px;
   font-weight: 600;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: rgb(255 255 255 / 75%);
+  // 90%, not lower: WCAG 2.1 AA needs >=4.5:1 for small text, and this sits
+  // on the lighter end of the header gradient.
+  color: rgb(255 255 255 / 90%);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
