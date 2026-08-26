@@ -26,10 +26,21 @@ services:
     restart: unless-stopped
     environment:
       NEWS_DATABASE_URL: mysql+asyncmy://news_service:${PRAXIS_NEWS_DB_PASSWORD:?Set PRAXIS_NEWS_DB_PASSWORD in .env}@mariadb:3306/praxis_news
+    depends_on:
+      mariadb:
+        condition: service_healthy
+
+  gateway:
+    container_name: praxis-gateway
+    build:
+      context: ./gateway
+    restart: unless-stopped
+    environment:
+      GATEWAY_NEWS_SERVICE_URL: http://news-service:8000
     ports:
       - "8000:8000"
     depends_on:
-      mariadb:
+      news-service:
         condition: service_healthy
 
   shell:
@@ -41,6 +52,9 @@ services:
     ports:
       - "4200:80"
     restart: unless-stopped
+    depends_on:
+      gateway:
+        condition: service_healthy
 
   news:
     container_name: praxis-news
@@ -51,6 +65,9 @@ services:
     ports:
       - "4201:80"
     restart: unless-stopped
+    depends_on:
+      gateway:
+        condition: service_healthy
 
 volumes:
   praxis_mariadb_data:

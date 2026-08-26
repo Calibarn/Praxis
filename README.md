@@ -49,19 +49,24 @@ Copy-Item .env.example .env   # einmalig, danach Passwörter anpassen
 ```
 
 Bereits vorhandene Container mit den exakten Namen `praxis-shell`,
-`praxis-news`, `praxis-news-service` und `praxis-mariadb` werden vorher
-entfernt. Abweichende Container werden nicht verändert. Die Anwendung ist
-danach unter folgenden Adressen erreichbar:
+`praxis-news`, `praxis-gateway`, `praxis-news-service` und `praxis-mariadb`
+werden vorher entfernt. Abweichende Container werden nicht verändert. Die
+Anwendung ist danach unter folgenden Adressen erreichbar:
 
 - Shell: `http://localhost:4200`
 - News-Remote: `http://localhost:4201`
-- News-Service: `http://localhost:8000/api/news`, `http://localhost:8000/health`
+- Gateway: `http://localhost:8000/api/news`, `http://localhost:8000/health`
+
+Beide Frontend-Container proxyen `/api/*` intern per Nginx an den Gateway
+weiter, der wiederum `/api/news` unverändert an den News-Service reicht
+(`GET http://localhost:4200/api/news` funktioniert also genauso wie der
+direkte Zugriff auf den Gateway). Der News-Service selbst hat keinen
+veröffentlichten Host-Port mehr; er ist nur noch über das Compose-Netzwerk
+erreichbar, der Gateway ist der einzige öffentliche Einstiegspunkt.
 
 Der News-Service wendet beim Start automatisch seine Alembic-Migrationen an;
 die MariaDB-Daten liegen im benannten Volume `praxis_mariadb_data` und
 überleben `docker compose down` (nicht aber `docker compose down --volumes`).
-Der Gateway ist noch nicht implementiert und deshalb kein Teil des Compose-
-Stacks; Frontends sprechen aktuell keinen Backend-Dienst an.
 
 Der lokale Start über `.\start-local.ps1` bleibt bewusst ein schneller
 Development-Start mit Live-Reload; der Docker-Start prüft die Release-Builds.
