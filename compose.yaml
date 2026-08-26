@@ -1,6 +1,37 @@
 name: praxis
 
 services:
+  mariadb:
+    container_name: praxis-mariadb
+    image: mariadb:11.8.3@sha256:ae6119716edac6998ae85508431b3d2e666530ddf4e94c61a10710caec9b0f71
+    command: ["--default-time-zone=+02:00"]
+    restart: unless-stopped
+    environment:
+      MARIADB_DATABASE: praxis_news
+      MARIADB_USER: news_service
+      MARIADB_PASSWORD: ${PRAXIS_NEWS_DB_PASSWORD:?Set PRAXIS_NEWS_DB_PASSWORD in .env}
+      MARIADB_ROOT_PASSWORD: ${PRAXIS_NEWS_DB_ROOT_PASSWORD:?Set PRAXIS_NEWS_DB_ROOT_PASSWORD in .env}
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 2s
+      timeout: 3s
+      retries: 30
+    volumes:
+      - praxis_mariadb_data:/var/lib/mysql
+
+  news-service:
+    container_name: praxis-news-service
+    build:
+      context: ./backend/services/news-service
+    restart: unless-stopped
+    environment:
+      NEWS_DATABASE_URL: mysql+asyncmy://news_service:${PRAXIS_NEWS_DB_PASSWORD:?Set PRAXIS_NEWS_DB_PASSWORD in .env}@mariadb:3306/praxis_news
+    ports:
+      - "8000:8000"
+    depends_on:
+      mariadb:
+        condition: service_healthy
+
   shell:
     container_name: praxis-shell
     build:
@@ -20,3 +51,6 @@ services:
     ports:
       - "4201:80"
     restart: unless-stopped
+
+volumes:
+  praxis_mariadb_data:

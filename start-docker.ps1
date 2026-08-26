@@ -12,7 +12,11 @@ if ($LASTEXITCODE -ne 0) {
     throw 'Docker ist nicht erreichbar. Bitte Docker Desktop starten.'
 }
 
-foreach ($containerName in @('praxis-shell', 'praxis-news')) {
+if (-not (Test-Path -LiteralPath (Join-Path $PSScriptRoot '.env'))) {
+    throw "Keine .env gefunden. Kopiere .env.example nach .env und setze die Passwörter."
+}
+
+foreach ($containerName in @('praxis-shell', 'praxis-news', 'praxis-news-service', 'praxis-mariadb')) {
     $existingContainerId = docker container ls --all --quiet --filter "name=^/$containerName`$"
     if ($LASTEXITCODE -ne 0) { throw 'Vorhandene Docker-Container konnten nicht ermittelt werden.' }
     if ($existingContainerId) {
@@ -36,7 +40,8 @@ finally {
     Pop-Location
 }
 
-Write-Host 'Shell: http://localhost:4200'
-Write-Host 'News:  http://localhost:4201'
+Write-Host 'Shell:        http://localhost:4200'
+Write-Host 'News:         http://localhost:4201'
+Write-Host 'News-Service: http://localhost:8000/api/news'
 Write-Host 'Status: docker compose ps'
 Write-Host 'Logs:   docker compose logs --follow'
