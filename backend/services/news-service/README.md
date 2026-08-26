@@ -28,6 +28,19 @@ angeforderte Seed-Umgebung muss mit `NEWS_DEPLOYMENT_ENVIRONMENT`
 übereinstimmen. `production`, unbekannte und fehlende Zielumgebungen werden
 vor dem Datenbankzugriff abgelehnt.
 
+## API lokal starten
+
+```powershell
+$env:NEWS_DATABASE_URL = 'mysql+asyncmy://USER:PASSWORD@HOST:3306/praxis_news'
+.\.venv\Scripts\python.exe -m uvicorn news_service.app:create_app_from_env --factory
+```
+
+`GET /api/news?page=1&pageSize=20` liefert nur aktive, veröffentlichte und
+aktuell gültige News, absteigend sortiert nach `publishedAt` und `id`.
+`pageSize` liegt zwischen 1 und 100 (Standard 20); ungültige Parameter ergeben
+`422`. `GET /health` prüft die Datenbankverbindung und liefert `503`, wenn sie
+nicht erreichbar ist. Fehlermeldungen enthalten keine internen Details.
+
 ## MariaDB-Integrationstest
 
 Docker Desktop muss laufen. Das Skript nutzt ausschließlich die isolierte
