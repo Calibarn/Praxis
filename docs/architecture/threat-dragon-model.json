@@ -1,0 +1,911 @@
+{
+  "version": "2.4.0",
+  "summary": {
+    "title": "Praxis-Anwendung",
+    "owner": "Praxis-Entwicklungsteam",
+    "description": "Threat Model für die konsolidierte Praxis-Anwendung nach ADR-0004: ein ASP.NET-Core-Backend (.NET 10), eine Angular-Frontend-App, MariaDB, Docker Compose. Siehe docs/architecture/threat-model.md für die ausführliche Fassung.",
+    "id": 0
+  },
+  "detail": {
+    "contributors": [
+      {
+        "name": "Backend-Entwicklung"
+      },
+      {
+        "name": "Frontend-Entwicklung"
+      }
+    ],
+    "diagrams": [
+      {
+        "id": 0,
+        "title": "Praxis - Datenflussdiagramm",
+        "diagramType": "STRIDE",
+        "placeholder": "New STRIDE diagram description",
+        "thumbnail": "./public/content/images/thumbnail.stride.jpg",
+        "version": "2.4.0",
+        "cells": [
+          {
+            "position": {
+              "x": 40,
+              "y": 140
+            },
+            "size": {
+              "width": 220,
+              "height": 200
+            },
+            "attrs": {
+              "label": {
+                "text": "Internet"
+              }
+            },
+            "visible": true,
+            "shape": "trust-boundary-box",
+            "id": "78d47c56-375d-4dba-847b-7e6f0e7ea51c",
+            "zIndex": -1,
+            "data": {
+              "type": "tm.BoundaryBox",
+              "description": "",
+              "isTrustBoundary": true,
+              "hasOpenThreats": false
+            }
+          },
+          {
+            "position": {
+              "x": 340,
+              "y": 60
+            },
+            "size": {
+              "width": 800,
+              "height": 360
+            },
+            "attrs": {
+              "label": {
+                "text": "Docker-Compose-Netzwerk (praxis_default)"
+              }
+            },
+            "visible": true,
+            "shape": "trust-boundary-box",
+            "id": "db9a890b-4415-4c83-b7be-0eb986fd2b0d",
+            "zIndex": -1,
+            "data": {
+              "type": "tm.BoundaryBox",
+              "description": "",
+              "isTrustBoundary": true,
+              "hasOpenThreats": false
+            }
+          },
+          {
+            "position": {
+              "x": 340,
+              "y": 10
+            },
+            "size": {
+              "width": 700,
+              "height": 45
+            },
+            "attrs": {
+              "text": {
+                "text": "Praxis-Anwendung – Datenflussdiagramm\nEin Backend (.NET), ein Frontend (Angular), MariaDB\nsiehe ADR-0004 und threat-model.md"
+              }
+            },
+            "visible": true,
+            "shape": "td-text-block",
+            "id": "bbd271d1-d6ba-453f-be15-769f80539b42",
+            "zIndex": 2,
+            "data": {
+              "type": "tm.Text",
+              "name": "Praxis-Anwendung – Datenflussdiagramm\nEin Backend (.NET), ein Frontend (Angular), MariaDB\nsiehe ADR-0004 und threat-model.md",
+              "hasOpenThreats": false
+            }
+          },
+          {
+            "position": {
+              "x": 90,
+              "y": 220
+            },
+            "size": {
+              "width": 120,
+              "height": 60
+            },
+            "attrs": {
+              "text": {
+                "text": "Browser (Nutzer)"
+              },
+              "body": {
+                "stroke": "#333333",
+                "strokeWidth": 1.5,
+                "strokeDasharray": null
+              }
+            },
+            "visible": true,
+            "shape": "actor",
+            "ports": {
+              "groups": {
+                "top": {
+                  "position": "top",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                },
+                "right": {
+                  "position": "right",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                },
+                "bottom": {
+                  "position": "bottom",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                },
+                "left": {
+                  "position": "left",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                }
+              },
+              "items": [
+                {
+                  "group": "top",
+                  "id": "93a93e0f-80fe-4fc9-b16d-a68826a9dc46"
+                },
+                {
+                  "group": "right",
+                  "id": "927dd2c5-91d7-4c62-ab0d-05b9a5612b1e"
+                },
+                {
+                  "group": "bottom",
+                  "id": "ad41d297-d980-490c-8e69-71d83aa7e1fc"
+                },
+                {
+                  "group": "left",
+                  "id": "19e91ba3-6d6f-420e-964c-a2859748c016"
+                }
+              ]
+            },
+            "id": "116771d6-2934-4d1d-83f5-77c6783fff60",
+            "zIndex": 3,
+            "data": {
+              "type": "tm.Actor",
+              "name": "Browser (Nutzer)",
+              "description": "",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": false,
+              "providesAuthentication": false,
+              "threats": []
+            }
+          },
+          {
+            "position": {
+              "x": 400,
+              "y": 200
+            },
+            "size": {
+              "width": 150,
+              "height": 120
+            },
+            "attrs": {
+              "text": {
+                "text": "Frontend (nginx)"
+              },
+              "body": {
+                "stroke": "#333333",
+                "strokeWidth": 1.5,
+                "strokeDasharray": null
+              }
+            },
+            "visible": true,
+            "shape": "process",
+            "ports": {
+              "groups": {
+                "top": {
+                  "position": "top",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                },
+                "right": {
+                  "position": "right",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                },
+                "bottom": {
+                  "position": "bottom",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                },
+                "left": {
+                  "position": "left",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                }
+              },
+              "items": [
+                {
+                  "group": "top",
+                  "id": "93a93e0f-80fe-4fc9-b16d-a68826a9dc46"
+                },
+                {
+                  "group": "right",
+                  "id": "927dd2c5-91d7-4c62-ab0d-05b9a5612b1e"
+                },
+                {
+                  "group": "bottom",
+                  "id": "ad41d297-d980-490c-8e69-71d83aa7e1fc"
+                },
+                {
+                  "group": "left",
+                  "id": "19e91ba3-6d6f-420e-964c-a2859748c016"
+                }
+              ]
+            },
+            "id": "d7f834bd-2370-41b0-93f6-f3a91dfa5a4c",
+            "zIndex": 4,
+            "data": {
+              "type": "tm.Process",
+              "name": "Frontend (nginx)",
+              "description": "",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": true,
+              "handlesCardPayment": false,
+              "handlesGoodsOrServices": false,
+              "isWebApplication": false,
+              "privilegeLevel": "",
+              "threats": [
+                {
+                  "id": "36175bbb-0ce6-47fd-837c-14cc70abecae",
+                  "title": "Kein Rate Limiting auf /api/news",
+                  "status": "Open",
+                  "severity": "Low",
+                  "type": "Denial of Service",
+                  "description": "Es existiert keine Ratenbegrenzung auf den öffentlichen Endpunkten; pageSize ist auf max. 100 begrenzt, die Anzahl der Anfragen aber nicht.",
+                  "mitigation": "Bei direkter Internet-Exposition ohne CDN/WAF ein Rate Limiting ergänzen (z. B. auf dem Reverse Proxy).",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 1,
+                  "score": ""
+                }
+              ]
+            }
+          },
+          {
+            "position": {
+              "x": 680,
+              "y": 200
+            },
+            "size": {
+              "width": 170,
+              "height": 120
+            },
+            "attrs": {
+              "text": {
+                "text": "Backend (ASP.NET Core, .NET 10)"
+              },
+              "body": {
+                "stroke": "#333333",
+                "strokeWidth": 1.5,
+                "strokeDasharray": null
+              }
+            },
+            "visible": true,
+            "shape": "process",
+            "ports": {
+              "groups": {
+                "top": {
+                  "position": "top",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                },
+                "right": {
+                  "position": "right",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                },
+                "bottom": {
+                  "position": "bottom",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                },
+                "left": {
+                  "position": "left",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                }
+              },
+              "items": [
+                {
+                  "group": "top",
+                  "id": "93a93e0f-80fe-4fc9-b16d-a68826a9dc46"
+                },
+                {
+                  "group": "right",
+                  "id": "927dd2c5-91d7-4c62-ab0d-05b9a5612b1e"
+                },
+                {
+                  "group": "bottom",
+                  "id": "ad41d297-d980-490c-8e69-71d83aa7e1fc"
+                },
+                {
+                  "group": "left",
+                  "id": "19e91ba3-6d6f-420e-964c-a2859748c016"
+                }
+              ]
+            },
+            "id": "e0f57321-77da-4c0d-891d-f8b435aebc96",
+            "zIndex": 5,
+            "data": {
+              "type": "tm.Process",
+              "name": "Backend (ASP.NET Core, .NET 10)",
+              "description": "",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": true,
+              "handlesCardPayment": false,
+              "handlesGoodsOrServices": false,
+              "isWebApplication": false,
+              "privilegeLevel": "",
+              "threats": [
+                {
+                  "id": "45001c0b-b727-468e-a8eb-fab49e70482d",
+                  "title": "Vollständig unauthentifizierte API (bewusst, informativ)",
+                  "status": "Open",
+                  "severity": "Low",
+                  "type": "Spoofing",
+                  "description": "GET /api/news und GET /health verlangen keine Authentifizierung. Aktuell bewusst, da rein lesende, öffentliche Inhalte ausgeliefert werden.",
+                  "mitigation": "Sobald ein Schreib-Endpoint (POST/PUT/DELETE) exponiert wird, dieses Modell überarbeiten und ein Auth-/Autorisierungskonzept einführen – nicht ad hoc pro Endpoint nachrüsten.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 1,
+                  "score": ""
+                },
+                {
+                  "id": "3c2e2f1d-2b17-4156-9609-f539bd3235fe",
+                  "title": "Kein expliziter Non-Root-User im Frontend-Container",
+                  "status": "Open",
+                  "severity": "Low",
+                  "type": "Elevation of Privilege",
+                  "description": "Der Frontend-Container läuft mit den Standardrechten des nginx-Basisimages ohne explizite USER-Direktive (Bestandsverhalten, keine Regression durch diese Migration).",
+                  "mitigation": "Bei einer Härtungs-Runde zusammen mit der DB-Rechtetrennung angehen.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 2,
+                  "score": ""
+                }
+              ]
+            }
+          },
+          {
+            "position": {
+              "x": 990,
+              "y": 210
+            },
+            "size": {
+              "width": 130,
+              "height": 100
+            },
+            "attrs": {
+              "text": {
+                "text": "MariaDB (praxis_news)"
+              },
+              "topLine": {
+                "strokeWidth": 1.5,
+                "strokeDasharray": null
+              },
+              "bottomLine": {
+                "strokeWidth": 1.5,
+                "strokeDasharray": null
+              }
+            },
+            "visible": true,
+            "shape": "store",
+            "ports": {
+              "groups": {
+                "top": {
+                  "position": "top",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                },
+                "right": {
+                  "position": "right",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                },
+                "bottom": {
+                  "position": "bottom",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                },
+                "left": {
+                  "position": "left",
+                  "attrs": {
+                    "circle": {
+                      "r": 4,
+                      "magnet": true,
+                      "stroke": "#5F95FF",
+                      "strokeWidth": 1,
+                      "fill": "#fff",
+                      "style": {
+                        "visibility": "hidden"
+                      }
+                    }
+                  }
+                }
+              },
+              "items": [
+                {
+                  "group": "top",
+                  "id": "93a93e0f-80fe-4fc9-b16d-a68826a9dc46"
+                },
+                {
+                  "group": "right",
+                  "id": "927dd2c5-91d7-4c62-ab0d-05b9a5612b1e"
+                },
+                {
+                  "group": "bottom",
+                  "id": "ad41d297-d980-490c-8e69-71d83aa7e1fc"
+                },
+                {
+                  "group": "left",
+                  "id": "19e91ba3-6d6f-420e-964c-a2859748c016"
+                }
+              ]
+            },
+            "id": "e7dafb7f-1eb3-4559-a7ff-4908c96ed06e",
+            "zIndex": 6,
+            "data": {
+              "type": "tm.Store",
+              "name": "MariaDB (praxis_news)",
+              "description": "",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": true,
+              "isALog": false,
+              "isEncrypted": false,
+              "isSigned": false,
+              "storesCredentials": false,
+              "storesInventory": false,
+              "threats": [
+                {
+                  "id": "3c060f5f-d00e-4779-abff-a50869daa3b0",
+                  "title": "Keine Rechtetrennung zwischen Migrations- und Runtime-DB-User",
+                  "status": "Open",
+                  "severity": "High",
+                  "type": "Tampering",
+                  "description": "Der Backend-Container nutzt denselben MariaDB-Benutzer (news_service) sowohl für automatische Schema-Migrationen (DDL) beim Containerstart als auch für normale Lese-/Schreibzugriffe zur Laufzeit.",
+                  "mitigation": "Zwei DB-User trennen: ein Migrations-User mit DDL-Rechten, nur für den Deploy-/Migrationsschritt verwendet, und ein Runtime-User mit auf die news-Tabelle beschränkten DML-Rechten für den langlaufenden App-Prozess.",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 1,
+                  "score": ""
+                },
+                {
+                  "id": "e6ab2554-e5c9-4a5f-b491-8315dd717bcb",
+                  "title": "Rechte-Eskalation bei Backend-Kompromittierung",
+                  "status": "Open",
+                  "severity": "High",
+                  "type": "Elevation of Privilege",
+                  "description": "Wird der Backend-Prozess kompromittiert (z. B. künftige Dependency-RCE), erbt ein Angreifer wegen Finding 1 auch Schema-Änderungsrechte, nicht nur Lese-/Schreibzugriff auf Daten.",
+                  "mitigation": "Siehe Mitigation zu Finding 1 (Rechtetrennung). Zusätzlich: geringstmögliche Rechte für den Runtime-User (kein DROP/ALTER).",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 2,
+                  "score": ""
+                }
+              ]
+            }
+          },
+          {
+            "shape": "flow",
+            "attrs": {
+              "line": {
+                "stroke": "#333333",
+                "targetMarker": {
+                  "name": "block"
+                },
+                "sourceMarker": {
+                  "name": ""
+                },
+                "strokeDasharray": null
+              }
+            },
+            "width": 200,
+            "height": 100,
+            "zIndex": 10,
+            "labels": [
+              {
+                "markup": [
+                  {
+                    "tagName": "ellipse",
+                    "selector": "labelBody"
+                  },
+                  {
+                    "tagName": "text",
+                    "selector": "labelText"
+                  }
+                ],
+                "attrs": {
+                  "labelText": {
+                    "text": "HTTP, unauthentifiziert",
+                    "textAnchor": "middle",
+                    "textVerticalAnchor": "middle"
+                  },
+                  "labelBody": {
+                    "ref": "labelText",
+                    "refRx": "50%",
+                    "refRy": "60%",
+                    "fill": "#fff",
+                    "strokeWidth": 0
+                  }
+                },
+                "position": {
+                  "distance": 0.5,
+                  "args": {
+                    "keepGradient": true,
+                    "ensureLegibility": true
+                  }
+                }
+              }
+            ],
+            "connector": "smooth",
+            "data": {
+              "type": "tm.Flow",
+              "name": "HTTP, unauthentifiziert",
+              "description": "",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": true,
+              "isBidirectional": false,
+              "isEncrypted": false,
+              "isPublicNetwork": true,
+              "protocol": "HTTP",
+              "threats": [
+                {
+                  "id": "a07aaf23-e71c-432a-97f9-c82393a56209",
+                  "title": "Kein TLS im Repository konfiguriert",
+                  "status": "Open",
+                  "severity": "Medium",
+                  "type": "Tampering",
+                  "description": "nginx lauscht auf Klartext-HTTP; es existiert keine TLS-/Zertifikatskonfiguration in diesem Repository. compose.yaml veröffentlicht Frontend und Backend als reines HTTP.",
+                  "mitigation": "TLS-Terminierung vor dem Frontend als hartes Muss behandeln, bevor personenbezogene/medizinische Daten über diesen Stack laufen (Praxis-Kontext: HIPAA/ADA-Grundierung). Dokumentieren, wo TLS terminiert (z. B. Cloud-Load-Balancer).",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 1,
+                  "score": ""
+                },
+                {
+                  "id": "1766dec0-5e82-4809-887a-a29e1c623952",
+                  "title": "Abhören von Inhalten im Klartext",
+                  "status": "Open",
+                  "severity": "Low",
+                  "type": "Information Disclosure",
+                  "description": "Solange nur öffentliche News-Inhalte übertragen werden, ist die Auswirkung gering; das ändert sich, sobald personenbezogene Daten hinzukommen.",
+                  "mitigation": "Siehe Mitigation oben (TLS-Terminierung).",
+                  "modelType": "STRIDE",
+                  "new": false,
+                  "number": 2,
+                  "score": ""
+                }
+              ]
+            },
+            "id": "3d3ce339-8db3-4443-a8c6-f3b34a7a2e8c",
+            "source": {
+              "cell": "116771d6-2934-4d1d-83f5-77c6783fff60",
+              "port": "927dd2c5-91d7-4c62-ab0d-05b9a5612b1e"
+            },
+            "target": {
+              "cell": "d7f834bd-2370-41b0-93f6-f3a91dfa5a4c",
+              "port": "19e91ba3-6d6f-420e-964c-a2859748c016"
+            },
+            "vertices": []
+          },
+          {
+            "shape": "flow",
+            "attrs": {
+              "line": {
+                "stroke": "#333333",
+                "targetMarker": {
+                  "name": "block"
+                },
+                "sourceMarker": {
+                  "name": ""
+                },
+                "strokeDasharray": null
+              }
+            },
+            "width": 200,
+            "height": 100,
+            "zIndex": 11,
+            "labels": [
+              {
+                "markup": [
+                  {
+                    "tagName": "ellipse",
+                    "selector": "labelBody"
+                  },
+                  {
+                    "tagName": "text",
+                    "selector": "labelText"
+                  }
+                ],
+                "attrs": {
+                  "labelText": {
+                    "text": "HTTP, /api/* (nginx proxy_pass)",
+                    "textAnchor": "middle",
+                    "textVerticalAnchor": "middle"
+                  },
+                  "labelBody": {
+                    "ref": "labelText",
+                    "refRx": "50%",
+                    "refRy": "60%",
+                    "fill": "#fff",
+                    "strokeWidth": 0
+                  }
+                },
+                "position": {
+                  "distance": 0.5,
+                  "args": {
+                    "keepGradient": true,
+                    "ensureLegibility": true
+                  }
+                }
+              }
+            ],
+            "connector": "smooth",
+            "data": {
+              "type": "tm.Flow",
+              "name": "HTTP, /api/* (nginx proxy_pass)",
+              "description": "",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": false,
+              "isBidirectional": false,
+              "isEncrypted": false,
+              "isPublicNetwork": false,
+              "protocol": "HTTP",
+              "threats": []
+            },
+            "id": "683fd51d-ccd4-4c60-95fa-c9af8ff961f3",
+            "source": {
+              "cell": "d7f834bd-2370-41b0-93f6-f3a91dfa5a4c",
+              "port": "927dd2c5-91d7-4c62-ab0d-05b9a5612b1e"
+            },
+            "target": {
+              "cell": "e0f57321-77da-4c0d-891d-f8b435aebc96",
+              "port": "19e91ba3-6d6f-420e-964c-a2859748c016"
+            },
+            "vertices": []
+          },
+          {
+            "shape": "flow",
+            "attrs": {
+              "line": {
+                "stroke": "#333333",
+                "targetMarker": {
+                  "name": "block"
+                },
+                "sourceMarker": {
+                  "name": ""
+                },
+                "strokeDasharray": null
+              }
+            },
+            "width": 200,
+            "height": 100,
+            "zIndex": 12,
+            "labels": [
+              {
+                "markup": [
+                  {
+                    "tagName": "ellipse",
+                    "selector": "labelBody"
+                  },
+                  {
+                    "tagName": "text",
+                    "selector": "labelText"
+                  }
+                ],
+                "attrs": {
+                  "labelText": {
+                    "text": "MySqlConnector (EF Core)",
+                    "textAnchor": "middle",
+                    "textVerticalAnchor": "middle"
+                  },
+                  "labelBody": {
+                    "ref": "labelText",
+                    "refRx": "50%",
+                    "refRy": "60%",
+                    "fill": "#fff",
+                    "strokeWidth": 0
+                  }
+                },
+                "position": {
+                  "distance": 0.5,
+                  "args": {
+                    "keepGradient": true,
+                    "ensureLegibility": true
+                  }
+                }
+              }
+            ],
+            "connector": "smooth",
+            "data": {
+              "type": "tm.Flow",
+              "name": "MySqlConnector (EF Core)",
+              "description": "",
+              "outOfScope": false,
+              "reasonOutOfScope": "",
+              "hasOpenThreats": false,
+              "isBidirectional": false,
+              "isEncrypted": false,
+              "isPublicNetwork": false,
+              "protocol": "MySQL/MariaDB wire protocol",
+              "threats": []
+            },
+            "id": "5d2af48a-20f6-4360-9318-8b6b2ba21203",
+            "source": {
+              "cell": "e0f57321-77da-4c0d-891d-f8b435aebc96",
+              "port": "927dd2c5-91d7-4c62-ab0d-05b9a5612b1e"
+            },
+            "target": {
+              "cell": "e7dafb7f-1eb3-4559-a7ff-4908c96ed06e",
+              "port": "19e91ba3-6d6f-420e-964c-a2859748c016"
+            },
+            "vertices": []
+          }
+        ]
+      }
+    ],
+    "diagramTop": 1,
+    "reviewer": "",
+    "threatTop": 3
+  }
+}

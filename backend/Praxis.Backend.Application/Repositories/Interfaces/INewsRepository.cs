@@ -9,4 +9,3 @@ public interface INewsRepository : IBaseRepository<News, Guid>
     Task<(IReadOnlyList<News> Items, int Total)> ListPublicPageAsync(
         DateTime now, int page, int pageSize, CancellationToken cancellationToken = default);
 }
-kanns
