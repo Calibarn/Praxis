@@ -10,8 +10,8 @@ credentials (see `docs/architecture/threat-model.md`, "DB privilege
 separation"):
 
 - `NEWS_DATABASE_URL` — the runtime user (`news_service` in `compose.yaml`).
-  DML only (`SELECT`/`INSERT`/`UPDATE`/`DELETE`), scoped to the `news` table.
-  Used by the app itself and by the seed CLI.
+  DML only (`SELECT`/`INSERT`/`UPDATE`/`DELETE`), no DDL. Used by the app
+  itself and by the seed CLI.
 - `NEWS_MIGRATION_DATABASE_URL` — the migration user (`news_migrator` in
   `compose.yaml`). DDL rights on the whole schema. Used only by
   `dotnet ... --migrate` / `dotnet ef database update`, never by the
