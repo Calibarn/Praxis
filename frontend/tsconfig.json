@@ -24,16 +24,10 @@
   "files": [],
   "references": [
     {
-      "path": "./projects/shell/tsconfig.app.json"
+      "path": "./tsconfig.app.json"
     },
     {
-      "path": "./projects/shell/tsconfig.spec.json"
-    },
-    {
-      "path": "./projects/news/tsconfig.app.json"
-    },
-    {
-      "path": "./projects/news/tsconfig.spec.json"
+      "path": "./tsconfig.spec.json"
     }
   ]
 }

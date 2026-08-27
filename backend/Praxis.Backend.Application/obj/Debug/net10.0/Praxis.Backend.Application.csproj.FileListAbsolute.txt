@@ -1,0 +1,13 @@
+C:\Users\jankr\JAF\praxis\backend\Praxis.Backend.Application\obj\Debug\net10.0\Praxis.Backend.Application.csproj.AssemblyReference.cache
+C:\Users\jankr\JAF\praxis\backend\Praxis.Backend.Application\obj\Debug\net10.0\Praxis.Backend.Application.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\jankr\JAF\praxis\backend\Praxis.Backend.Application\obj\Debug\net10.0\Praxis.Backend.Application.AssemblyInfoInputs.cache
+C:\Users\jankr\JAF\praxis\backend\Praxis.Backend.Application\obj\Debug\net10.0\Praxis.Backend.Application.AssemblyInfo.cs
+C:\Users\jankr\JAF\praxis\backend\Praxis.Backend.Application\obj\Debug\net10.0\Praxis.Backend.Application.csproj.CoreCompileInputs.cache
+C:\Users\jankr\JAF\praxis\backend\Praxis.Backend.Application\obj\Debug\net10.0\Praxis.Backend.Application.sourcelink.json
+C:\Users\jankr\JAF\praxis\backend\Praxis.Backend.Application\bin\Debug\net10.0\Praxis.Backend.Application.deps.json
+C:\Users\jankr\JAF\praxis\backend\Praxis.Backend.Application\bin\Debug\net10.0\Praxis.Backend.Application.dll
+C:\Users\jankr\JAF\praxis\backend\Praxis.Backend.Application\bin\Debug\net10.0\Praxis.Backend.Application.pdb
+C:\Users\jankr\JAF\praxis\backend\Praxis.Backend.Application\obj\Debug\net10.0\Praxis.Backend.Application.dll
+C:\Users\jankr\JAF\praxis\backend\Praxis.Backend.Application\obj\Debug\net10.0\refint\Praxis.Backend.Application.dll
+C:\Users\jankr\JAF\praxis\backend\Praxis.Backend.Application\obj\Debug\net10.0\Praxis.Backend.Application.pdb
+C:\Users\jankr\JAF\praxis\backend\Praxis.Backend.Application\obj\Debug\net10.0\ref\Praxis.Backend.Application.dll

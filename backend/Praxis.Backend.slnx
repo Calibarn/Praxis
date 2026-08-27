@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="Praxis.Backend.Application/Praxis.Backend.Application.csproj" />
+  <Project Path="Praxis.Backend.Host/Praxis.Backend.Host.csproj" />
+  <Project Path="Praxis.Backend.Tests/Praxis.Backend.Tests.csproj" />
+  <Project Path="Praxis.Backend.Tests.Integration/Praxis.Backend.Tests.Integration.csproj" />
+</Solution>

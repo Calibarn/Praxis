@@ -1,2 +1,0 @@
-"""Praxis API Gateway package."""
-

@@ -19,11 +19,10 @@ try {
         if ($LASTEXITCODE -ne 0) { throw 'npm ci ist fehlgeschlagen.' }
     }
 
-    Write-Host 'Shell: http://localhost:4200'
-    Write-Host 'News:  http://localhost:4201'
+    Write-Host 'Frontend: http://localhost:4200'
     Write-Host 'Beenden mit Strg+C.'
-    npm run start:all
-    if ($LASTEXITCODE -ne 0) { throw 'Die Frontend-Prozesse wurden mit einem Fehler beendet.' }
+    npm start
+    if ($LASTEXITCODE -ne 0) { throw 'Der Frontend-Prozess wurde mit einem Fehler beendet.' }
 }
 finally {
     Pop-Location

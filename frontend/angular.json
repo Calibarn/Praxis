@@ -6,61 +6,30 @@
   },
   "newProjectRoot": "projects",
   "projects": {
-    "shell": {
+    "app": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
           "style": "scss"
         }
       },
-      "root": "projects/shell",
-      "sourceRoot": "projects/shell/src",
+      "root": "",
+      "sourceRoot": "src",
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular-architects/native-federation:build",
-          "options": {},
-          "configurations": {
-            "production": {
-              "target": "shell:esbuild:production"
-            },
-            "development": {
-              "target": "shell:esbuild:development",
-              "dev": true
-            }
-          },
-          "defaultConfiguration": "production"
-        },
-        "serve": {
-          "builder": "@angular-architects/native-federation:build",
-          "options": {
-            "target": "shell:serve-original:development",
-            "rebuildDelay": 500,
-            "dev": true,
-            "cacheExternalArtifacts": false,
-            "port": 0
-          }
-        },
-        "test": {
-          "builder": "@angular/build:unit-test",
-          "options": {
-            "buildTarget": "shell:esbuild:development"
-          }
-        },
-        "esbuild": {
           "builder": "@angular/build:application",
           "options": {
-            "browser": "projects/shell/src/main.ts",
-            "tsConfig": "projects/shell/tsconfig.app.json",
+            "browser": "src/main.ts",
+            "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
               {
                 "glob": "**/*",
-                "input": "projects/shell/public"
+                "input": "public"
               }
             ],
-            "styles": ["projects/shell/src/styles.scss"],
-            "polyfills": ["es-module-shims"]
+            "styles": ["src/styles.scss"]
           },
           "configurations": {
             "production": {
@@ -86,14 +55,14 @@
           },
           "defaultConfiguration": "production"
         },
-        "serve-original": {
+        "serve": {
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "shell:esbuild:production"
+              "buildTarget": "app:build:production"
             },
             "development": {
-              "buildTarget": "shell:esbuild:development"
+              "buildTarget": "app:build:development"
             }
           },
           "defaultConfiguration": "development",
@@ -101,115 +70,17 @@
             "port": 4200
           }
         },
-        "lint": {
-          "builder": "@angular-eslint/builder:lint",
-          "options": {
-            "lintFilePatterns": ["projects/shell/**/*.ts", "projects/shell/**/*.html"],
-            "eslintConfig": "projects/shell/eslint.config.js"
-          }
-        }
-      }
-    },
-    "news": {
-      "projectType": "application",
-      "schematics": {
-        "@schematics/angular:component": {
-          "style": "scss"
-        }
-      },
-      "root": "projects/news",
-      "sourceRoot": "projects/news/src",
-      "prefix": "app",
-      "architect": {
-        "build": {
-          "builder": "@angular-architects/native-federation:build",
-          "options": {},
-          "configurations": {
-            "production": {
-              "target": "news:esbuild:production"
-            },
-            "development": {
-              "target": "news:esbuild:development",
-              "dev": true
-            }
-          },
-          "defaultConfiguration": "production"
-        },
-        "serve": {
-          "builder": "@angular-architects/native-federation:build",
-          "options": {
-            "target": "news:serve-original:development",
-            "rebuildDelay": 500,
-            "dev": true,
-            "cacheExternalArtifacts": false,
-            "port": 0
-          }
-        },
         "test": {
           "builder": "@angular/build:unit-test",
           "options": {
-            "buildTarget": "news:esbuild:development"
-          }
-        },
-        "esbuild": {
-          "builder": "@angular/build:application",
-          "options": {
-            "browser": "projects/news/src/main.ts",
-            "tsConfig": "projects/news/tsconfig.app.json",
-            "inlineStyleLanguage": "scss",
-            "assets": [
-              {
-                "glob": "**/*",
-                "input": "projects/news/public"
-              }
-            ],
-            "styles": ["projects/news/src/styles.scss"],
-            "polyfills": ["es-module-shims"]
-          },
-          "configurations": {
-            "production": {
-              "budgets": [
-                {
-                  "type": "initial",
-                  "maximumWarning": "500kB",
-                  "maximumError": "1MB"
-                },
-                {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "6kB",
-                  "maximumError": "8kB"
-                }
-              ],
-              "outputHashing": "all"
-            },
-            "development": {
-              "optimization": false,
-              "extractLicenses": false,
-              "sourceMap": true
-            }
-          },
-          "defaultConfiguration": "production"
-        },
-        "serve-original": {
-          "builder": "@angular/build:dev-server",
-          "configurations": {
-            "production": {
-              "buildTarget": "news:esbuild:production"
-            },
-            "development": {
-              "buildTarget": "news:esbuild:development"
-            }
-          },
-          "defaultConfiguration": "development",
-          "options": {
-            "port": 4201
+            "buildTarget": "app:build:development"
           }
         },
         "lint": {
           "builder": "@angular-eslint/builder:lint",
           "options": {
-            "lintFilePatterns": ["projects/news/**/*.ts", "projects/news/**/*.html"],
-            "eslintConfig": "projects/news/eslint.config.js"
+            "lintFilePatterns": ["src/**/*.ts", "src/**/*.html"],
+            "eslintConfig": "eslint.config.js"
           }
         }
       }
