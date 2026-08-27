@@ -22,6 +22,14 @@ secrets/
 **/.angular/
 **/coverage/
 
+# .NET
+**/bin/
+**/obj/
+**/TestResults/
+*.pdb
+*.user
+.vs/
+
 # Local runtime and tooling
 **/.jaf/
 .vscode/

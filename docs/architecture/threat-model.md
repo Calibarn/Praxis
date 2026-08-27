@@ -34,10 +34,9 @@ Browser (untrusted)
                                       ▼
                         ┌─────────────────────────┐
                         │ mariadb                    │
-                        │  news_service user: DML +  │
-                        │  DDL (same creds used for  │
-                        │  migrations and app reads/ │
-                        │  writes)                    │
+                        │  news_service: DML only     │
+                        │  news_migrator: DDL, used   │
+                        │  only by --migrate           │
                         └─────────────────────────┘
 ```
 
@@ -52,27 +51,34 @@ Consequence 3 below.
 
 ## STRIDE findings
 
-### 1. No schema/data privilege separation for the backend's DB user (Tampering / Elevation of Privilege)
+### 1. No schema/data privilege separation for the backend's DB user (Tampering / Elevation of Privilege) — MITIGATED (2026-08-27)
 
-**Finding:** `compose.yaml` gives the `backend` container the same
+**Finding:** `compose.yaml` gave the `backend` container the same
 `news_service` MariaDB credential for two different jobs: (a) normal
 request-time reads (`SELECT`) and future writes, and (b) running EF Core
 migrations (`DDL: CREATE TABLE`, `ALTER`, etc.) automatically on every
-container start (`Tools/Dockerfile`'s `ENTRYPOINT` runs
-`dotnet Praxis.Backend.Host.dll --migrate` before starting the app). There is
-one MariaDB user with both rights, used by one long-running process.
+container start. There was one MariaDB user with both rights, used by one
+long-running process.
 
-**Why it matters:** if the backend process is ever compromised (a future
+**Why it mattered:** if the backend process were ever compromised (a future
 dependency RCE, an unsafe deserialization bug introduced later, etc.), the
-attacker inherits schema-modification rights on `praxis_news`, not just
+attacker would inherit schema-modification rights on `praxis_news`, not just
 data access — they could drop/alter tables or plant a rogue migration-history
 row, not merely read/exfiltrate rows.
 
-**Recommendation:** split into two MariaDB users: a migration user (DDL,
-used only by an explicit deploy/migrate step) and a runtime user (`SELECT`,
-and later `INSERT`/`UPDATE`/`DELETE` scoped to the `news` table only) used by
-the long-running app process. This is a deployment-model change, not a code
-change — worth doing before this ever leaves a local/dev Compose setup.
+**Mitigation applied:** two MariaDB users now exist —
+`news_migrator` (DDL, used only by `--migrate` via `NEWS_MIGRATION_DATABASE_URL`)
+and `news_service` (DML only, no DDL, used by the long-running app process via
+`NEWS_DATABASE_URL`). `db-init/01-restrict-privileges.sh` sets this up
+automatically for the Compose-managed MariaDB; `Praxis.Backend.Host/Program.cs`'s
+`--migrate` path now requires `NEWS_MIGRATION_DATABASE_URL` and never uses the
+runtime credential. Verified end-to-end: `news_service` gets
+`ERROR 1142 CREATE command denied` on a DDL attempt but can still read/write
+`news` rows; `news_migrator` runs migrations successfully. See
+`backend/README.md`, "DB user separation", for operational details — an
+existing MariaDB data volume from before this change keeps the old,
+unrestricted grants until the volume is recreated or the SQL is applied by
+hand.
 
 ### 2. No TLS termination in this repo (Tampering / Information Disclosure)
 
@@ -134,7 +140,8 @@ on the public internet without a CDN/WAF in front of it.
 - `backend`: runs as non-root `appuser` (Dockerfile), base images pinned by
   digest — good.
 - `mariadb`: official image, root password only used for bootstrap; the app
-  itself uses the lower-privileged `news_service` user (modulo Finding 1).
+  itself uses the lower-privileged, DML-only `news_service` user (Finding 1,
+  mitigated).
 - `frontend`: nginx official image, no explicit non-root `USER` — runs with
   the base image's defaults (unchanged from before this migration, not a
   regression introduced by it, but worth tightening alongside Finding 1 if
@@ -142,7 +149,8 @@ on the public internet without a CDN/WAF in front of it.
 
 ## Summary of recommended follow-ups, by priority
 
-1. Separate the migration DB user from the runtime app DB user (Finding 1).
+1. ~~Separate the migration DB user from the runtime app DB user~~ — done,
+   see Finding 1.
 2. Decide and document where TLS terminates before any PII/PHI-adjacent
    feature ships (Finding 2).
 3. Treat "add an authenticated write endpoint" as a trigger to redo this
