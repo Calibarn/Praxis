@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Praxis.Backend.Tests.Integration")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f07fa37539ffabb3415f68fa40d9b7339aa9e70d")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+28ecc141b36e4c242dc4f1fb634a665add787845")]
 [assembly: System.Reflection.AssemblyProductAttribute("Praxis.Backend.Tests.Integration")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Praxis.Backend.Tests.Integration")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

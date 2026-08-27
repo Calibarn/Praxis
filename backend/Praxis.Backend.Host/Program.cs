@@ -11,6 +11,11 @@ if (args.Length > 0 && args[0] == "seed")
     return await RunSeedAsync(args.Skip(1).ToArray());
 }
 
+if (args.Contains("--migrate"))
+{
+    return await RunMigrateAsync();
+}
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers().AddJsonOptions(options =>
@@ -26,16 +31,27 @@ builder.Services.AddScoped<INewsRepository, NewsRepository>();
 
 var app = builder.Build();
 
-if (args.Contains("--migrate"))
-{
-    using var scope = app.Services.CreateScope();
-    await scope.ServiceProvider.GetRequiredService<NewsDbContext>().Database.MigrateAsync();
-    return 0;
-}
-
 app.MapControllers();
 app.Run();
 return 0;
+
+static async Task<int> RunMigrateAsync()
+{
+    // Deliberately separate from NEWS_DATABASE_URL: migrations need DDL rights
+    // (CREATE/ALTER/DROP) that the long-running app's runtime DB user must not
+    // have, so a compromised app process can't also alter the schema.
+    // See docs/architecture/threat-model.md, "DB privilege separation".
+    var migrationDatabaseUrl = Environment.GetEnvironmentVariable("NEWS_MIGRATION_DATABASE_URL");
+    if (string.IsNullOrEmpty(migrationDatabaseUrl))
+    {
+        Console.Error.WriteLine("NEWS_MIGRATION_DATABASE_URL must be set to run migrations");
+        return 1;
+    }
+
+    await using var context = new NewsDbContext(NewsDbContextOptionsFactory.Build(migrationDatabaseUrl));
+    await context.Database.MigrateAsync();
+    return 0;
+}
 
 static async Task<int> RunSeedAsync(string[] seedArgs)
 {

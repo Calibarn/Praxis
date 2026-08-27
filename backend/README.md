@@ -1,13 +1,31 @@
 # Praxis Backend
 
 Single ASP.NET Core (.NET 10) backend and sole owner of the `news` table.
-Migrations need an explicit `NEWS_DATABASE_URL`; there is no built-in
-production value and no production seeds.
+There is no built-in production value and no production seeds.
+
+## DB user separation
+
+The long-running app process and schema migrations use **different** MariaDB
+credentials (see `docs/architecture/threat-model.md`, "DB privilege
+separation"):
+
+- `NEWS_DATABASE_URL` — the runtime user (`news_service` in `compose.yaml`).
+  DML only (`SELECT`/`INSERT`/`UPDATE`/`DELETE`), scoped to the `news` table.
+  Used by the app itself and by the seed CLI.
+- `NEWS_MIGRATION_DATABASE_URL` — the migration user (`news_migrator` in
+  `compose.yaml`). DDL rights on the whole schema. Used only by
+  `dotnet ... --migrate` / `dotnet ef database update`, never by the
+  long-running app.
+
+`db-init/01-restrict-privileges.sh` sets this up automatically for the
+Compose-managed MariaDB (runs once, on first container init — an existing
+data volume from before this change keeps the old, unrestricted grants until
+the volume is recreated or the SQL is applied by hand).
 
 ## Migration
 
 ```powershell
-$env:NEWS_DATABASE_URL = 'mysql+asyncmy://USER:PASSWORD@HOST:3306/praxis_news'
+$env:NEWS_MIGRATION_DATABASE_URL = 'mysql+asyncmy://news_migrator:PASSWORD@HOST:3306/praxis_news'
 dotnet ef database update --project Praxis.Backend.Application --startup-project Praxis.Backend.Host
 ```
 
@@ -49,6 +67,9 @@ dotnet test Praxis.Backend.slnx
 Unit tests (`Praxis.Backend.Tests`) always run. Integration tests
 (`Praxis.Backend.Tests.Integration`) migrate and seed themselves against
 whatever `NEWS_DATABASE_URL` points to, and self-skip if it isn't set — no
-setup script or bundled container required. Point it at a disposable database
-(e.g. the `mariadb` service from the repo-root `compose.yaml`) to run them for
-real.
+setup script or bundled container required. Because they call
+`Database.MigrateAsync()` themselves, point `NEWS_DATABASE_URL` at a
+DDL-capable credential when running them against the Compose-managed
+MariaDB — the `news_migrator` connection string, not the DML-only
+`news_service` one (see "DB user separation" above) — since it's a disposable
+test database anyway, the split doesn't need to be mirrored there.
